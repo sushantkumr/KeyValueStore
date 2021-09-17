@@ -5,6 +5,11 @@ from lib.models import db
 from lib.models.key_value_pair import KeyValuePair
 
 
+class HomePage(Resource):
+    def get(self):
+        return {"home": "page"}
+
+
 class GetKeyValuePair(Resource):
     def get(self, key):
         value = (KeyValuePair.query.filter(KeyValuePair.key == key).first()).value
