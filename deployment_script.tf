@@ -59,7 +59,7 @@ module "ec2_sg" {
   vpc_id      = resource.aws_default_vpc.default.id
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["http-80-tcp", "https-443-tcp", "all-icmp"]
+  ingress_rules       = ["http-80-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
 
@@ -143,7 +143,7 @@ resource "aws_instance" "key_value_store_instance" {
     sudo chmod +x /usr/local/bin/docker-compose
     docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${local.account_id}.dkr.ecr.us-east-1.amazonaws.com
     docker pull ${module.ecr_docker_build.ecr_image_url}
-    docker run -p 5000:5000 ${module.ecr_docker_build.ecr_image_url}
+    docker run -p 80:80 ${module.ecr_docker_build.ecr_image_url}
 
   EOF
 
