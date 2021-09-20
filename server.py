@@ -15,4 +15,4 @@ api.add_resource(SearchKeyValuePair, '/search',)
 
 if __name__ == '__main__':
     init_db()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='172.20.0.2', port=5000, debug=True) # Reason for binding to that IP: https://stackoverflow.com/a/58138250/5378688
