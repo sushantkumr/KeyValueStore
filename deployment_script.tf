@@ -135,8 +135,9 @@ resource "aws_instance" "key_value_store_instance" {
     sudo usermod -a -G docker ec2-user
     sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
-    docker-compose pull ${module.ecr_docker_build.ecr_image_url}
-    docker-compose up ${module.ecr_docker_build.ecr_image_url}
+    docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${module.ecr_docker_build.ecr_image_url}
+    docker pull ${module.ecr_docker_build.ecr_image_url}:latest
+    docker run -p 5000:5000 ${module.ecr_docker_build.ecr_image_url}:latest
 
   EOF
 

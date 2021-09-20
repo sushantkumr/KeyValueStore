@@ -7,16 +7,24 @@ from lib.models.key_value_pair import KeyValuePair
 
 class GetKeyValuePair(Resource):
     def get(self, key):
-        value = (KeyValuePair.query.filter(KeyValuePair.key == key).first()).value
-        return {"value": value}
+        row = (KeyValuePair.query.filter(KeyValuePair.key == key).first())
+        if row:
+            value = row.value
+            return {"value": value}
+        else:
+            return {"message": "Key value pair does not exist"}
 
 
 class SetKeyValuePair(Resource):
     def post(self):
         key = request.form['key']
         value = request.form['value']
-        kv_object = KeyValuePair(key=key, value=value)
-        db.db_session.add(kv_object)
+        row = (KeyValuePair.query.filter(KeyValuePair.key == key).first())
+        if row:
+            row.value = value
+        else:
+            row = KeyValuePair(key=key, value=value)
+        db.db_session.add(row)
         db.db_session.commit()
         return {key: value}
 
