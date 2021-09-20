@@ -118,7 +118,7 @@ resource "aws_iam_role_policy" "ec2_policy" {
 EOF
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "key_value_store_instance" {
   ami           = data.aws_ami.amazon_linux_2.id
   instance_type = "t3.micro"
 
@@ -135,6 +135,7 @@ resource "aws_instance" "web" {
     sudo usermod -a -G docker ec2-user
     sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
+
   EOF
 
   vpc_security_group_ids = [
@@ -150,4 +151,8 @@ resource "aws_instance" "web" {
   monitoring              = true
   disable_api_termination = false
   ebs_optimized           = true
+
+  depends_on = [
+    module.ecr_docker_build,
+  ]
 }
