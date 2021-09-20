@@ -9,6 +9,10 @@ terraform {
 resource "aws_default_vpc" "default" {
 }
 
+locals {
+    account_id = data.aws_caller_identity.current.account_id
+}
+
 data "aws_subnet_ids" "all" {
   vpc_id = resource.aws_default_vpc.default.id
 }
@@ -135,9 +139,9 @@ resource "aws_instance" "key_value_store_instance" {
     sudo usermod -a -G docker ec2-user
     sudo curl -L https://github.com/docker/compose/releases/download/1.25.4/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
-    docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${module.ecr_docker_build.ecr_image_url}
-    docker pull ${module.ecr_docker_build.ecr_image_url}:latest
-    docker run -p 5000:5000 ${module.ecr_docker_build.ecr_image_url}:latest
+    docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) ${local.account_id}.dkr.ecr.us-east-1.amazonaws.com
+    docker pull ${module.ecr_docker_build.ecr_image_url}
+    docker run -p 5000:5000 ${module.ecr_docker_build.ecr_image_url}
 
   EOF
 
