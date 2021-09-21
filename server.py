@@ -1,5 +1,6 @@
-from flask import Flask, request
+from flask import Flask
 from flask_restful import Api
+
 from lib.models.db import init_db
 from views import GetKeyValuePair, SetKeyValuePair, SearchKeyValuePair
 

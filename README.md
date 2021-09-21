@@ -1,7 +1,9 @@
 # KeyValueStore
+
 A simple flask REST service to store key value pairs.
 
-### Functions
+## Functions
+
 • get: To fetch the value of a Key
 
 • set: To set a Key Value pair
@@ -18,6 +20,7 @@ A simple flask REST service to store key value pairs.
 • Access the APIs at `http://0.0.0.0/`
 
 ### Deploy on Cloud (AWS)
+
 • If you have AWS configured on your local system then follow this guide for deployment
 
 • Install terraform on your system

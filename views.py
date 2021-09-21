@@ -1,8 +1,12 @@
 from flask import request
 from flask_restful import Resource
+from prometheus_flask_exporter import RESTfulPrometheusMetrics
 
 from lib.models import db
 from lib.models.key_value_pair import KeyValuePair
+
+
+metrics = RESTfulPrometheusMetrics.for_app_factory()
 
 
 class GetKeyValuePair(Resource):
