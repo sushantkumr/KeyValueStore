@@ -2,7 +2,7 @@ from flask import Flask
 from flask_restful import Api
 
 from lib.models.db import init_db
-from views import GetKeyValuePair, SetKeyValuePair, SearchKeyValuePair
+from views import GetKeyValuePair, SetKeyValuePair, SearchKeyValuePair, Metrics
 
 
 app = Flask(__name__)
@@ -12,6 +12,7 @@ api = Api(app)
 api.add_resource(GetKeyValuePair, '/get/<string:key>',)
 api.add_resource(SetKeyValuePair, '/set',)
 api.add_resource(SearchKeyValuePair, '/search',)
+api.add_resource(Metrics, '/metrics',)
 
 
 if __name__ == '__main__':
